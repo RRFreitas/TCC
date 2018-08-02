@@ -1,23 +1,43 @@
-from PIL import Image
+from PIL import Image, ImageDraw
 import face_recognition
 
+# Carrega foto eu.jpg
 minha_foto = face_recognition.load_image_file("eu.jpg")
+# Encoding da foto eu.jpg
 minha_face = face_recognition.face_encodings(minha_foto)[0]
 
-turma_foto = face_recognition.load_image_file("turma.jpg")
-turma_faces = face_recognition.face_encodings(turma_foto)
+# Lista de fotos com várias pessoas para encontrar a face da foto eu.jpg
+fotos = ["1.jpg", "2.jpg", "3.jpg"]
 
-face_locations = face_recognition.face_locations(turma_foto)
+# Percorre cada foto do array fotos
+for foto in fotos:
+	# Carrega foto
+	turma_foto = face_recognition.load_image_file(foto)
+	# Pega o encoding de todas as faces da foto
+	turma_faces = face_recognition.face_encodings(turma_foto)
+	# Pega as localizações das faces na foto (top, right, bottom, left)
+	face_locations = face_recognition.face_locations(turma_foto)
 
-for index, face in enumerate(turma_faces):
-	results = face_recognition.compare_faces([minha_face], face)
-	if(results[0] == True):
-		print("hello its me")
+	# Percorre cada face da foto
+	for index, face in enumerate(turma_faces):
+		# Compara face eu.jpg com a face atual (true ou false)
+		results = face_recognition.compare_faces([minha_face], face)
 
-		top, right, bottom, left = face_locations[index]
-		face_img = turma_foto[top:bottom, left:right]
-		pil_image = Image.fromarray(face_img)
-		pil_image.show()
+		if(results[0] == True): # Se for parecido
+			print("its me")
+
+			top, right, bottom, left = face_locations[index] # locations da face
+
+			pil_image = Image.fromarray(turma_foto) 
+			draw = ImageDraw.Draw(pil_image)
+			#Desenha retângulo nos locations da face
+			draw.rectangle(((left, top), (right, bottom)), outline="red")
+			pil_image.show()
+
+			
+			#face_img = turma_foto[top:bottom, left:right]
+			#pil_image2 = Image.fromarray(face_img)
+			#pil_image2.show()
 		
 
 """
