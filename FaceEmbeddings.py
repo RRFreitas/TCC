@@ -57,7 +57,7 @@ def prepare_training_data(data_folder_path):
 
     return encodings, names
 
-def recognize(encodings, nomes, image):
+def recognize(known_encodings, nomes, image):
     # font pillow
     fnt = ImageFont.truetype('FreeSansBold.ttf', 18)
 
@@ -72,7 +72,7 @@ def recognize(encodings, nomes, image):
     # Percorre cada face da foto
     for index, face_encoding in enumerate(faces_encodings):
         # Compara a face 1:1
-        results = face_recognition.compare_faces(encodings, face_encoding)
+        results = face_recognition.compare_faces(known_encodings, face_encoding)
 
         # lista de nomes das pessoas reconhecidas
         recognizeds = [nomes[i] for i, known in enumerate(results) if known]
@@ -91,9 +91,9 @@ def main():
     print("Preparing data...")
 
     # Diretório com imagens pessoas conhecidas para treinar o algoritmo
-    training_data_dir = "known_people"
+    training_data_dir = "dataset"
     # Diretório com imagens de testes para reconhecimento de faces conhecidas
-    image_test_dir = "image_folder"
+    image_test_dir = "examples"
 
     # Medidas da face e nome das pessoas registradas (no diretório passado por parâmetro)
     encodings, names = prepare_training_data(training_data_dir)
