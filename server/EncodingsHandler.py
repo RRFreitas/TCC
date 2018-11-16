@@ -6,21 +6,28 @@ class EncodingsHandler:
         self.encodingsFile = encodingsFile
         self.encodings = self.carregarEncodings()
 
+    def adicionarEncoding(self, pessoa_id, encoding):
+        self.encodings["ids"].append(pessoa_id)
+        self.encodings["encodings"].append(encoding)
+        self.salvarEncodings()
+
     def carregarEncodings(self):
         try:
-            return pickle.loads(open(self.encodingsFile, "rb").read())
+            f = open(self.encodingsFile, "rb")
+            enc = pickle.loads(f.read())
+            f.close()
+            return enc
         except:
             return {"encodings": [], "ids": []}
 
     def salvarEncodings(self):
         print("[INFO] serializando encodings...")
-
+        print(self.encodings)
         try:
-            f = open(self.encodingsFile, "wb")
+            f = open("encodings.pickle", "wb")
             f.write(pickle.dumps(self.encodings))
             f.close()
-        except:
+            print("[INFO] encodings serializados")
+        except Exception as err:
+            print(err)
             print("[ERRO] encodings não foram salvos")
-
-    def __del__(self):
-        self.salvarEncodings()
