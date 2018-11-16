@@ -16,11 +16,15 @@ click==6.7
 cryptography
 Flask
 Flask-Ask==0.9.7
+flask_restful
+flask_cors
+SQLAlchemy
 gunicorn==19.7.1
 idna==2.6
 itsdangerous==0.24
 Jinja2==2.10
 MarkupSafe==1.0
+psycopg2
 pycparser==2.18
 pyOpenSSL
 python-dateutil==2.7.2
