@@ -32,7 +32,7 @@ class ReconhecedorResource(Resource):
                 # determina a face reconhecida com o maior número de votos
                 id = max(counts, key=counts.get)
 
-            p = Pessoa.query.fing_by(id=id)
+            p = Pessoa.query.filter_by(id=id).first()
 
             if p:
                 return p

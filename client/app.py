@@ -15,9 +15,17 @@ def index():
 
 @app.route('/reconhecer')
 def reconhecer():
-    enc = gerar_encoding_camera()
-    print(enc)
-    return str(len(enc))
+    try:
+        enc = gerar_encoding_camera()
+        if (len(enc) != 1):
+            raise Exception("Nenhuma ou mais de uma face.")
+
+        payload = {"encoding": enc[0].tolist()}
+        r = requests.post("https://rennan.herokuapp.com/api/reconhecer", json=payload)
+        return Response(r.text)
+    except Exception as err:
+        print(err)
+        return Response(str(err), 400)
 
 @app.route('/cadastro', methods=['GET', 'POST'])
 def cadastro():
