@@ -14,9 +14,10 @@ class Pessoa(db.Model):
     nome = db.Column('nome', db.String(50))
     email = db.Column('email', db.String(50))
 
-    def __init__(self, nome, email):
+    def __init__(self, nome, email, id=None):
         self.nome = nome
         self.email = email
+        self.id = id
 
     def __repr__(self):
         return "<Pessoa [id = %s, nome = %s, email = %s]>" % (self.id, self.nome, self.email)

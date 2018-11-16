@@ -3,6 +3,7 @@ from flask_restful import Api
 from flask_cors import CORS
 from server.common.database import db
 from server.resources.PessoaResource import PessoaResource
+from server.resources.ReconhecedorResource import ReconhecedorResource
 import sys
 import os
 
@@ -16,6 +17,7 @@ api_bp = Blueprint('api', __name__)
 api = Api(api_bp, prefix='/api')
 
 api.add_resource(PessoaResource, '/pessoas', '/pessoas/<int:pessoa_id>')
+api.add_resource(ReconhecedorResource, '/reconhecer')
 
 app.register_blueprint(api_bp)
 
