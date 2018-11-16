@@ -18,7 +18,7 @@ Flask
 Flask-Ask==0.9.7
 flask_restful
 flask_cors
-SQLAlchemy
+flask_sqlalchemy
 gunicorn==19.7.1
 idna==2.6
 itsdangerous==0.24
