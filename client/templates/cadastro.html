@@ -2,23 +2,22 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Reconhecimento Facial</title>
+    <title>Cadastrar Pessoa</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <img id="video" src="/video_viewer">
-    <button id="confirmar">Confirmar</button>
+
+    <form id="pessoa-form" action="javascript:void(0)" method="post" enctype="multipart/form-data">
+        <input type="text" placeholder="Nome" name="nome" id="nome">
+        <input type="text" placeholder="E-mail" name="email" id="email">
+        <input type="file" accept="image/*" name="foto" id="foto">
+        <button>Cadastrar</button>
+    </form>
 
     <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
