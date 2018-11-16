@@ -26,4 +26,5 @@ class PessoaResource(Resource):
 
             return 200
         except Exception as err:
-            return err
+            print(err)
+            return 500
