@@ -24,6 +24,7 @@ def reconhecer():
             raise Exception("Nenhuma ou mais de uma face.")
 
         payload = {"encoding": enc[0].tolist()}
+        print(payload)
         r = requests.post("https://rennan.herokuapp.com/api/reconhecer", json=payload)
         return Response(r.text)
     except Exception as err:

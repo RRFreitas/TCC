@@ -11,11 +11,13 @@ class ReconhecedorResource(Resource):
     def post(self):
         try:
             json_data = request.get_json(force=True)
+            print(json_data)
             if not 'encoding' in json_data.keys():
                 raise Exception("Má formatação.")
 
             matches = face_recognition.compare_faces(handler.encodings['encodings'],
                                                      json_data['encoding'])
+            print(matches)
             nome = "Desconhecido"
             email = ""
             id = 0
@@ -32,7 +34,11 @@ class ReconhecedorResource(Resource):
                 # determina a face reconhecida com o maior número de votos
                 id = max(counts, key=counts.get)
 
+            print(id)
+
             p = Pessoa.query.filter_by(id=id).first()
+
+            print(p)
 
             if p:
                 return p
