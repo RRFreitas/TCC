@@ -4,6 +4,7 @@ from server.models.Pessoa import Pessoa, pessoa_fields
 from server.common.encodings import handler
 import face_recognition
 
+
 class ReconhecedorResource(Resource):
 
     # POST /reconhecer
@@ -45,4 +46,5 @@ class ReconhecedorResource(Resource):
             else:
                 return Pessoa(nome, email, id=id)
         except Exception as err:
+            print(err)
             return Response(str(err), 400)
