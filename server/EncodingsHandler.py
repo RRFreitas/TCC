@@ -6,6 +6,12 @@ class EncodingsHandler:
         self.encodingsFile = encodingsFile
         self.encodings = self.carregarEncodings()
 
+    def deletarEncodings(self):
+        print("[INFO] deletando encodings...")
+        self.encodings = {"encodings": [], "ids": []}
+        self.salvarEncodings()
+
+
     def adicionarEncoding(self, pessoa_id, encoding):
         self.encodings["ids"].append(pessoa_id)
         self.encodings["encodings"].append(encoding)
@@ -13,9 +19,12 @@ class EncodingsHandler:
 
     def carregarEncodings(self):
         try:
+            print("[INFO] carregando encodings...")
             f = open(self.encodingsFile, "rb")
             enc = pickle.loads(f.read())
             f.close()
+
+            print(enc)
             return enc
         except:
             return {"encodings": [], "ids": []}

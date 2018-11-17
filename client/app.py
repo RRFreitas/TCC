@@ -1,5 +1,7 @@
+#!/usr/bin/env python3
+
 from flask import Flask, render_template, Response, jsonify, request, flash
-from client.Camera import Camera
+from Camera import Camera
 import face_recognition
 import cv2
 import requests
@@ -17,6 +19,7 @@ def index():
 def reconhecer():
     try:
         enc = gerar_encoding_camera()
+        print(enc)
         if (len(enc) != 1):
             raise Exception("Nenhuma ou mais de uma face.")
 

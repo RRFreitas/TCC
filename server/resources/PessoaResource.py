@@ -33,8 +33,16 @@ class PessoaResource(Resource):
             return Response(str(err), 400)
 
     # DELETE /pessoas/<pessoa_id>
-    def delete(self, pessoa_id):
+    def delete(self, pessoa_id=None):
         try:
+            if pessoa_id is None:
+                all = Pessoa.query.all()
+                for pessoa in all:
+                    db.session.delete(pessoa)
+                db.session.commit()
+                handler.deletarEncodings()
+                return Response("OK", 200)
+
             pessoa = Pessoa.query.filter_by(id=pessoa_id).first()
 
             if pessoa is None:
