@@ -3,6 +3,7 @@ from flask import Response
 from server.models.Pessoa import Pessoa, pessoa_fields
 from server.common.encodings import handler
 import face_recognition
+import numpy as np
 
 
 class ReconhecedorResource(Resource):
@@ -16,7 +17,8 @@ class ReconhecedorResource(Resource):
             if not 'encoding' in json_data.keys():
                 raise Exception("Má formatação.")
 
-            matches = face_recognition.compare_faces(handler.encodings['encodings'],
+            knownEncodings = np.asarray(handler.encodings['encodings'])
+            matches = face_recognition.compare_faces(knownEncodings,
                                                      json_data['encoding'])
             print(matches)
             nome = "Desconhecido"
@@ -35,8 +37,6 @@ class ReconhecedorResource(Resource):
                 # determina a face reconhecida com o maior número de votos
                 id = max(counts, key=counts.get)
 
-            print(id)
-
             p = Pessoa.query.filter_by(id=id).first()
 
             print(p)
@@ -46,5 +46,4 @@ class ReconhecedorResource(Resource):
             else:
                 return Pessoa(nome, email, id=id)
         except Exception as err:
-            print(err)
-            return Response(str(err), 400)
+            return Pessoa("Desconhecido", "")
