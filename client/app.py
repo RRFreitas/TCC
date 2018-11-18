@@ -44,6 +44,7 @@ def cadastro():
             payload = {"nome": request.form['nome'],
                        "email": request.form['email'],
                        "foto_b64": b64}
+            print(payload)
             r = requests.post("https://rennan.herokuapp.com/api/pessoas", json=payload)
             return Response(r.text)
         except Exception as err:

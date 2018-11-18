@@ -24,7 +24,7 @@ class PessoaResource(Resource):
                    and 'foto_b64' in json_data.keys())):
                 raise Exception("Má formatação.")
 
-            imgdata = base64.decodebytes(json_data['foto_b64'])
+            imgdata = base64.decodebytes(bytes(json_data['foto_b64']))
             encodings = face_recognition.face_encodings(imgdata)
 
             if(len(encodings) != 1):
