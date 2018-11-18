@@ -24,6 +24,7 @@ app.register_blueprint(api_bp)
 
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+
 def run(host='0.0.0.0', debug=False):
     port = int(os.environ.get("PORT", 5000))
     app.debug = debug

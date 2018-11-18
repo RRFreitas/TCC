@@ -3,6 +3,8 @@ from flask import Response
 from server.models.Pessoa import Pessoa, pessoa_fields
 from server.models.Encoding import Encoding
 from server.common.database import db
+import base64
+import face_recognition
 
 class PessoaResource(Resource):
     # GET /pessoas
@@ -19,14 +21,20 @@ class PessoaResource(Resource):
         try:
             json_data = request.get_json(force=True)
             if(not('nome' in json_data.keys() and 'email' in json_data.keys()
-                   and 'encoding' in json_data.keys())):
+                   and 'foto_b64' in json_data.keys())):
                 raise Exception("Má formatação.")
+
+            imgdata = base64.decodebytes(json_data['foto_b64'])
+            encodings = face_recognition.face_encodings(imgdata)
+
+            if(len(encodings) != 1):
+                raise Exception("Nenhuma ou mais de uma face.")
 
             pessoa = Pessoa(json_data['nome'], json_data['email'])
             db.session.add(pessoa)
             db.session.commit()
 
-            encoding = Encoding(pessoa.id, json_data['encoding'])
+            encoding = Encoding(pessoa.id, encodings[0])
             db.session.add(encoding)
             db.session.commit()
 

@@ -2,8 +2,7 @@
 
 from flask import Flask, render_template, Response, jsonify, request, flash
 from Camera import Camera
-import face_recognition
-import cv2
+import base64
 import requests
 
 app = Flask(__name__)
@@ -18,12 +17,9 @@ def index():
 @app.route('/reconhecer')
 def reconhecer():
     try:
-        enc = gerar_encoding_camera()
-        print(enc)
-        if (len(enc) != 1):
-            raise Exception("Nenhuma ou mais de uma face.")
+        b64 = gerar_b64(video_camera.get_jpg_frame())
 
-        payload = {"encoding": enc[0].tolist()}
+        payload = {"foto_b64": b64}
         print(payload)
         r = requests.post("https://rennan.herokuapp.com/api/reconhecer", json=payload)
         return Response(r.text)
@@ -38,37 +34,25 @@ def cadastro():
     elif request.method == 'POST':
         try:
             if not ('foto' in request.files and 'nome' in request.form and 'email' in request.form):
-                raise Exception("Má formatação.")
+                raise Exception("Formulário inválido.")
 
             if(request.form['nome'] == '' or request.form['email'] == ''):
-                raise Exception("Má formatação.")
+                raise Exception("Formulário inválido.")
             file = request.files['foto']
-            encoding = gerar_encoding(file)
-
-            if(len(encoding) != 1):
-                raise Exception("Nenhuma ou mais de uma face.")
+            b64 = str(gerar_b64(file.read()), encoding='utf-8')
 
             payload = {"nome": request.form['nome'],
                        "email": request.form['email'],
-                       "encoding": encoding[0].tolist()}
+                       "foto_b64": b64}
             r = requests.post("https://rennan.herokuapp.com/api/pessoas", json=payload)
             return Response(r.text)
         except Exception as err:
             print(err)
             return Response(str(err), 400)
 
-def gerar_encoding(file):
-    file.save('cache/' + file.filename)
-    image = cv2.imread("cache/" + file.filename)
-    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    boxes = face_recognition.face_locations(rgb)
-    encodings = face_recognition.face_encodings(rgb, boxes)
-    return encodings
+def gerar_b64(frame):
+    return base64.b64encode(frame)
 
-def gerar_encoding_camera():
-    small_frame = video_camera.get_small_frame()
-    boxes = face_recognition.face_locations(small_frame)
-    return face_recognition.face_encodings(small_frame, boxes)
 
 def video_stream():
     global video_camera
