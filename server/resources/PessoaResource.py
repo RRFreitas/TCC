@@ -1,8 +1,8 @@
 from flask_restful import Resource, marshal_with, reqparse, request, abort
 from flask import Response
 from server.models.Pessoa import Pessoa, pessoa_fields
+from server.models.Encoding import Encoding
 from server.common.database import db
-from server.common.encodings import handler
 
 class PessoaResource(Resource):
     # GET /pessoas
@@ -26,7 +26,9 @@ class PessoaResource(Resource):
             db.session.add(pessoa)
             db.session.commit()
 
-            handler.adicionarEncoding(pessoa.id, json_data['encoding'])
+            encoding = Encoding(pessoa.id, json_data['encoding'])
+            db.session.add(encoding)
+            db.session.commit()
 
             return Response('OK', 200)
         except Exception as err:
@@ -38,15 +40,21 @@ class PessoaResource(Resource):
             if pessoa_id is None:
                 all = Pessoa.query.all()
                 for pessoa in all:
+                    encs = Encoding.query.filter_by(pessoa_id=pessoa.id).all()
+                    for enc in encs:
+                        db.session.delete(enc)
                     db.session.delete(pessoa)
                 db.session.commit()
-                handler.deletarEncodings()
                 return Response("OK", 200)
 
             pessoa = Pessoa.query.filter_by(id=pessoa_id).first()
 
             if pessoa is None:
                 return Response("Pessoa não encontrada.", 404)
+
+            encs = Encoding.query.filter_by(pessoa_id=pessoa.id).all()
+            for enc in encs:
+                db.session.delete(enc)
 
             db.session.delete(pessoa)
             db.session.commit()
