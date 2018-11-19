@@ -25,7 +25,9 @@ class ReconhecedorResource(Resource):
             with open(file_name, 'wb') as f:
                 f.write(imgdata)
             print(file_name)
+            f = open(file_name, 'rb')
             img_file = face_recognition.load_image_file(file_name)
+            f.close()
             encodings = face_recognition.face_encodings(img_file)
             print("file " + encodings[0])
 
