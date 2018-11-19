@@ -18,7 +18,9 @@ class ReconhecedorResource(Resource):
             if not 'foto_b64' in json_data.keys():
                 raise Exception("Má formatação.")
 
-            imgdata = base64.decodebytes(bytes(json_data['foto_b64'], 'utf-8'))
+            print(json_data['foto_b64'])
+            s = json_data['foto_b64']
+            imgdata = base64.b64decode(s + '=' * (-len(s) % 4), 'utf-8')
             file_name = 'face.jpg'
             with open(file_name, 'wb') as f:
                 f.write(imgdata)
