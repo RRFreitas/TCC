@@ -17,7 +17,7 @@ def index():
 @app.route('/reconhecer')
 def reconhecer():
     try:
-        b64 = gerar_b64(video_camera.get_jpg_frame())
+        b64 = str(gerar_b64(video_camera.get_jpg_frame()))
 
         payload = {"foto_b64": b64}
         print(payload)

@@ -15,7 +15,6 @@ class ReconhecedorResource(Resource):
     def post(self):
         try:
             json_data = request.get_json(force=True)
-            print(json_data)
             if not 'foto_b64' in json_data.keys():
                 raise Exception("Má formatação.")
 
@@ -25,11 +24,13 @@ class ReconhecedorResource(Resource):
                 f.write(imgdata)
             img_file = face_recognition.load_image_file(file_name)
             encodings = face_recognition.face_encodings(img_file)
+            print("file " + encodings[0])
 
             if (len(encodings) != 1):
                 raise Exception("Nenhuma ou mais de uma face.")
 
             knownEncodings = np.asarray(Encoding.query.all())
+            print("known " + knownEncodings)
             matches = face_recognition.compare_faces(knownEncodings, encodings[0])
             print(matches)
             nome = "Desconhecido"
