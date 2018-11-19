@@ -22,11 +22,11 @@ class ReconhecedorResource(Resource):
             s = json_data['foto_b64']
             imgdata = base64.b64decode(s + '=' * (-len(s) % 4))
             file_name = 'face.jpg'
-            with open(file_name, 'wb') as f:
-                f.write(imgdata)
+            f = open(file_name, 'wb')
+            f.write(imgdata)
             print(file_name)
             f = open(file_name, 'rb')
-            img_file = face_recognition.load_image_file(file_name)
+            img_file = face_recognition.load_image_file(f)
             f.close()
             encodings = face_recognition.face_encodings(img_file)
             print("file " + encodings[0])
