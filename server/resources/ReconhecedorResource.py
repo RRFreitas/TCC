@@ -58,4 +58,5 @@ class ReconhecedorResource(Resource):
             else:
                 return Pessoa(nome, email, id=id)
         except Exception as err:
+            print(err)
             return Pessoa("Desconhecido", "")
