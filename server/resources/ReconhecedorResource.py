@@ -20,7 +20,7 @@ class ReconhecedorResource(Resource):
 
             print(json_data['foto_b64'])
             s = json_data['foto_b64']
-            imgdata = base64.b64decode(s + '=' * (-len(s) % 4), 'utf-8')
+            imgdata = base64.b64decode(s + '=' * (-len(s) % 4))
             file_name = 'face.jpg'
             with open(file_name, 'wb') as f:
                 f.write(imgdata)
