@@ -20,7 +20,7 @@ class ReconhecedorResource(Resource):
                 raise Exception("Má formatação.")
 
             imgdata = base64.decodebytes(bytes(json_data['foto_b64'], 'utf-8'))
-            img_file = 'uploads/face.jpg'
+            img_file = '../uploads/face.jpg'
             with open(img_file, 'wb') as f:
                 f.write(imgdata)
             encodings = face_recognition.face_encodings(img_file)
