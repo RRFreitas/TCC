@@ -1,8 +1,8 @@
 from flask_restful import Resource, marshal_with, reqparse, request, abort
 from flask import Response
-from server.models.Pessoa import Pessoa, pessoa_fields
-from server.models.Encoding import Encoding
-from server.common.database import db
+from models.Pessoa import Pessoa, pessoa_fields
+from models.Encoding import Encoding
+from common.database import db
 import base64
 import face_recognition
 

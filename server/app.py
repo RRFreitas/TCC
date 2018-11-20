@@ -2,9 +2,9 @@
 from flask import Flask, Blueprint
 from flask_restful import Api
 from flask_cors import CORS
-from server.common.database import db
-from server.resources.PessoaResource import PessoaResource
-from server.resources.ReconhecedorResource import ReconhecedorResource
+from common.database import db
+from resources.PessoaResource import PessoaResource
+from resources.ReconhecedorResource import ReconhecedorResource
 import sys
 import os
 

@@ -1,3 +1,3 @@
-from server.EncodingsHandler import EncodingsHandler
+from EncodingsHandler import EncodingsHandler
 
 handler = EncodingsHandler("encodings.pickle")

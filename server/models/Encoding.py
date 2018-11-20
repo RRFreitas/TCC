@@ -1,4 +1,4 @@
-from server.common.database import db
+from common.database import db
 from flask_restful import fields
 
 encoding_fields = {
