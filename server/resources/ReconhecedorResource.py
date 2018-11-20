@@ -1,13 +1,8 @@
 from flask_restful import Resource, marshal_with, request
-from flask import Response
 from models.Pessoa import Pessoa, pessoa_fields
 from models.Encoding import Encoding
-from common.encodings import handler
-from PIL import Image
 import face_recognition
-import numpy as np
 import base64
-import cv2
 
 class ReconhecedorResource(Resource):
 
@@ -25,7 +20,7 @@ class ReconhecedorResource(Resource):
 			file_name = 'face.jpg'
 			with open(file_name, "wb") as fh:
 				fh.write(imgdata)
-			image = cv2.imread(file_name)
+			image = face_recognition.load_image_file(file_name)
 			encodings = face_recognition.face_encodings(image)
 
 			if (len(encodings) != 1):
