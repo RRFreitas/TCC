@@ -20,15 +20,14 @@ class PessoaResource(Resource):
     def post(self):
         try:
             json_data = request.get_json(force=True)
-            if(not('nome' in json_data.keys() and 'email' in json_data.keys()
-                   and 'foto_b64' in json_data.keys())):
+            if(not('nome' in json_data.keys() and 'email' in json_data.keys())):
                 raise Exception("Má formatação.")
 
-            imgdata = base64.decodebytes(bytes(json_data['foto_b64'], 'utf-8'))
-            file_name = 'face.jpg'
-            with open(file_name, 'wb') as f:
-                f.write(imgdata)
-            img_file = face_recognition.load_image_file(file_name)
+            if not ('foto' in request.files):
+                raise Exception("Foto não recebida.")
+
+            file = request.files['foto']
+            img_file = face_recognition.load_image_file(file)
             encodings = face_recognition.face_encodings(img_file)
 
             if(len(encodings) != 1):

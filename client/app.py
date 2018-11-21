@@ -2,7 +2,6 @@
 
 from flask import Flask, render_template, Response, jsonify, request, flash
 from Camera import Camera
-import base64
 import requests
 
 app = Flask(__name__)
@@ -36,20 +35,15 @@ def cadastro():
             if(request.form['nome'] == '' or request.form['email'] == ''):
                 raise Exception("Formulário inválido.")
             file = request.files['foto']
-            b64 = str(gerar_b64(file.read()), encoding='utf-8')
-
+            files = {"foto": file}
             payload = {"nome": request.form['nome'],
-                       "email": request.form['email'],
-                       "foto_b64": b64}
+                       "email": request.form['email']}
             print(payload)
-            r = requests.post("https://rennan.herokuapp.com/api/pessoas", json=payload)
+            r = requests.post("https://rennan.herokuapp.com/api/pessoas", json=payload, files=files)
             return Response(r.text)
         except Exception as err:
             print(err)
             return Response(str(err), 400)
-
-def gerar_b64(frame):
-    return base64.b64encode(frame)
 
 
 def video_stream():
