@@ -19,6 +19,7 @@ class PessoaResource(Resource):
     # POST /pessoas
     def post(self):
         try:
+            print(request.form)
             if(not('nome' in request.form and 'email' in request.form)):
                 raise Exception("Má formatação.")
             if (request.form['nome'] == '' or request.form['email'] == ''):
