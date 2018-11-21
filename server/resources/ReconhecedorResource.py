@@ -3,6 +3,7 @@ from models.Pessoa import Pessoa, pessoa_fields
 from models.Encoding import Encoding
 import face_recognition
 import base64
+import re
 
 class ReconhecedorResource(Resource):
 
@@ -10,17 +11,12 @@ class ReconhecedorResource(Resource):
 	@marshal_with(pessoa_fields)
 	def post(self):
 		try:
-			json_data = request.get_json(force=True)
-			if not 'foto_b64' in json_data.keys():
-				raise Exception("Má formatação.")
+			if not ('foto' in request.files):
+				raise Exception("Foto inválida.")
 
-			s = json_data['foto_b64']
-			imgdata = base64.decodebytes(bytes(s, 'utf-8'))
+			file = request.files['foto']
 
-			file_name = 'face.jpg'
-			with open(file_name, "wb") as fh:
-				fh.write(imgdata)
-			image = face_recognition.load_image_file(file_name)
+			image = face_recognition.load_image_file(file)
 			encodings = face_recognition.face_encodings(image)
 
 			if (len(encodings) != 1):
@@ -56,5 +52,6 @@ class ReconhecedorResource(Resource):
 			else:
 				return Pessoa(nome, email, id=id)
 		except Exception as err:
+			raise err
 			print(err)
 			return Pessoa("Desconhecido", "")

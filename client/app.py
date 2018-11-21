@@ -17,11 +17,8 @@ def index():
 @app.route('/reconhecer')
 def reconhecer():
     try:
-        b64 = str(gerar_b64(video_camera.get_jpg_frame()))
-
-        payload = {"foto_b64": b64}
-        print(payload)
-        r = requests.post("https://rennan.herokuapp.com/api/reconhecer", json=payload)
+        files = {"foto": video_camera.get_jpg_frame()}
+        r = requests.post("https://rennan.herokuapp.com/api/reconhecer", files=files)
         return Response(r.text)
     except Exception as err:
         print(err)
