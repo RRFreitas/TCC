@@ -19,10 +19,10 @@ class PessoaResource(Resource):
     # POST /pessoas
     def post(self):
         try:
-            json_data = request.get_json(force=True)
-            if(not('nome' in json_data.keys() and 'email' in json_data.keys())):
+            if(not('nome' in request.form and 'email' in request.form)):
                 raise Exception("Má formatação.")
-
+            if (request.form['nome'] == '' or request.form['email'] == ''):
+                raise Exception("Formulário inválido.")
             if not ('foto' in request.files):
                 raise Exception("Foto não recebida.")
 
@@ -33,7 +33,7 @@ class PessoaResource(Resource):
             if(len(encodings) != 1):
                 raise Exception("Nenhuma ou mais de uma face.")
 
-            pessoa = Pessoa(json_data['nome'], json_data['email'])
+            pessoa = Pessoa(request.form['nome'], request.form['email'])
             db.session.add(pessoa)
             db.session.commit()
 
@@ -43,6 +43,7 @@ class PessoaResource(Resource):
 
             return Response('OK', 200)
         except Exception as err:
+            print(err)
             return Response(str(err), 400)
 
     # DELETE /pessoas/<pessoa_id>
