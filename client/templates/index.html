@@ -4,22 +4,52 @@
     <meta charset="UTF-8">
     <title>Reconhecimento Facial</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+           
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <img id="video" src="/video_viewer">
-    <button id="confirmar">Confirmar</button>
-
+    <nav>
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="hide-on-med-and-down">
+                <li><a href="/">Reconhecer</a></li>
+                <li><a href="/cadastro">Cadastrar</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="reconhecer">
+        <img class="z-depth-5" id="video" src="/video_viewer" alt="Servidor desligado ou webcam indisponível.">
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Reconhecendo...</h4>
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Ok</a>
+            </div>
+        </div>
+        <br>
+        <a id="confirmar" href="#modal1" class="waves-effect waves-light btn grey darken-4 modal-trigger"><i class="material-icons right">fingerprint</i>Reconhecer</a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

@@ -4,14 +4,28 @@
     <meta charset="UTF-8">
     <title>Cadastrar Pessoa</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
+     <!-- Compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      
+     <!-- Compiled and minified JavaScript -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+              
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
-
+    <nav>
+        <div class="nav-wrapper">
+            <ul id="nav-mobile" class="hide-on-med-and-down">
+                <li><a href="/">Reconhecer</a></li>
+                <li><a href="/cadastro">Cadastrar</a></li>
+            </ul>
+        </div>
+    </nav>
     <form id="pessoa-form" action="javascript:void(0)" method="post" enctype="multipart/form-data">
         <input type="text" placeholder="Nome" name="nome" id="nome">
         <input type="text" placeholder="E-mail" name="email" id="email">

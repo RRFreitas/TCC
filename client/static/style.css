@@ -1,0 +1,19 @@
+body {
+  background-color: #DBD9D1;
+}
+
+.nav-wrapper {
+  background-color: #3D3C40;
+}
+
+nav {
+  margin-bottom: 5px;
+}
+
+.btn {
+  background-color: #3D3C40;
+}
+
+.reconhecer {
+  text-align: center;
+}

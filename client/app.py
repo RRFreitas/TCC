@@ -38,9 +38,8 @@ def cadastro():
             files = {"foto": file}
             payload = {"nome": request.form['nome'],
                        "email": request.form['email']}
-            headers = {'Content-Type': 'multipart/form-data'}
             print(payload)
-            r = requests.post("https://rennan.herokuapp.com/api/pessoas", data=payload, files=files, headers=headers)
+            r = requests.post("https://rennan.herokuapp.com/api/pessoas", data=payload, files=files)
             return Response(r.text)
         except Exception as err:
             print(err)
