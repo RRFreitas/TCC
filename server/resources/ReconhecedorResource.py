@@ -2,8 +2,7 @@ from flask_restful import Resource, marshal_with, request
 from models.Pessoa import Pessoa, pessoa_fields
 from models.Encoding import Encoding
 import face_recognition
-import base64
-import re
+
 
 class ReconhecedorResource(Resource):
 

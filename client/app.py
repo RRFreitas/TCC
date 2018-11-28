@@ -3,6 +3,8 @@
 from flask import Flask, render_template, Response, jsonify, request, flash
 from Camera import Camera
 import requests
+import base64
+import cv2
 
 app = Flask(__name__)
 
@@ -17,8 +19,13 @@ def index():
 def reconhecer():
     try:
         files = {"foto": video_camera.get_jpg_frame()}
+
         r = requests.post("https://rennan.herokuapp.com/api/reconhecer", files=files)
-        return Response(r.text)
+        js = r.json()
+        print(js)
+        js["foto_b64"] = str(base64.encodebytes(files["foto"]), "utf-8")
+        js["foto_b64"].replace("\n", "")
+        return jsonify(js)
     except Exception as err:
         print(err)
         return Response(str(err), 400)

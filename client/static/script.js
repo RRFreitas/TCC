@@ -1,24 +1,30 @@
 $(document).ready(function() {
     $('.modal').modal({
-        dismissible: false, // Modal can be dismissed by clicking outside of the modal
-        onOpenStart: modal => { // Callback for Modal open. Modal and trigger parameters available.
+        dismissible: false,
+        onOpenStart: modal => {
             $('#modal1 .modal-content .preloader-wrapper').addClass("active");
             $('#modal1 .modal-content h4').text("Reconhecendo");
             $('#modal1 .modal-content p').text("");
+            $('#modal1 .modal-content img').css({"display": "none"});
+            $('#modal1 .modal-content img').attr('src', "data:image/png;base64, ");
         },
       }
     );
 
     $('#confirmar').click(function() {
         $.get("/reconhecer", function(data, status) {
-            dataJson = JSON.parse(data);
+            dataJson = data
             console.log(dataJson);
             $('#modal1 .modal-content .preloader-wrapper').removeClass("active");
 
             if(dataJson.id != 0) {
+                $('#modal1 .modal-content img').css({"display": "block"});
                 $('#modal1 .modal-content h4').text("Reconhecido");
+                $('#modal1 .modal-content img').attr('src', "data:image/png;base64, " + dataJson["foto_b64"]);
+                M.toast({html: "Reconhecido.", displayLength: 5000})
             } else {
                 $('#modal1 .modal-content h4').text("Desconhecido");
+                M.toast({html: "Não reconhecido.", displayLength: 5000})
             }
 
             $('#modal1 .modal-content p').append("<b>ID:</b> " + dataJson.id);
@@ -35,7 +41,10 @@ $(document).ready(function() {
             type: "POST",
             data: formData,
             success: function(data) {
-                alert(data);
+                M.toast({html: data, displayLength: 5000})
+            },
+            error: function(req, text, errorThrown) {
+                M.toast({html: req.responseText, displayLength: 5000});
             },
             cache: false,
             contentType: false,
