@@ -3,7 +3,6 @@ from flask import Response
 from models.Pessoa import Pessoa, pessoa_fields
 from models.Encoding import Encoding
 from common.database import db
-import base64
 import face_recognition
 
 class PessoaResource(Resource):
