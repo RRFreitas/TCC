@@ -28,7 +28,7 @@ psycopg2
 pycparser==2.18
 pyOpenSSL
 python-dateutil==2.7.2
-PyYAML==3.12
+PyYAML==5.4
 requests
 six==1.11.0
 Unidecode==1.0.22
